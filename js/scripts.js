@@ -10,9 +10,12 @@
 };*/
 
 function translateWord(word) {
-  startOfWord = "";
-  restOfWord = "";
-  start = true;
+  if (word.length === 0) {
+    return "";
+  }
+  var startOfWord = "";
+  var restOfWord = "";
+  var start = true;
 
   for (var i = 0; i < word.length; i++) {
     if (start) {
@@ -24,18 +27,41 @@ function translateWord(word) {
       };
     } else {
       restOfWord += word.charAt(i);
-    }
-
+    };
   };
+
   if (startOfWord.length === 0) {
     startOfWord = "w";
   }
   return restOfWord + startOfWord + "ay";
 };
 
+function processSentence(sentence) {
+  var processedSentence = "";
+  var word = "";
+
+  for (var i = 0; i < sentence.length; i++) {
+    if (/[a-zA-Z]/.test(sentence.charAt(i))) {
+      console.log("alphanum " + sentence.charAt(i));
+      word += sentence.charAt(i);
+    } else {
+      console.log(processedSentence + " " + word);
+      processedSentence += translateWord(word);
+      word = "";
+      processedSentence += sentence.charAt(i);
+      console.log(processedSentence);
+    };
+  };
+  processedSentence += translateWord(word);
+
+  return processedSentence;
+};
+
+
+
 $(document).ready(function() {
 
-  var word = prompt("enter a word");
-  alert(translateWord(word));
+  var sentence = prompt("enter a sentence");
+  alert(processSentence(sentence));
 
 });
