@@ -1,5 +1,9 @@
 
 function translateWord(word) {
+  if (/[aeiou]/.test(word.charAt(0))) {
+    word += "way"
+  }
+
   return "the word is " + word;
 };
 
