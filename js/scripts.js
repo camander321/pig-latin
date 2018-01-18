@@ -1,14 +1,4 @@
 
-/*function translateWord(word) {
-  if (/[aeiou]/.test(word.charAt(0))) {
-    word += "way";
-  } else {
-
-  }
-
-  return "the word is " + word;
-};*/
-
 function translateWord(word) {
   if (word.length === 0) {
     return "";
@@ -18,15 +8,22 @@ function translateWord(word) {
   var start = true;
 
   for (var i = 0; i < word.length; i++) {
+    var char = word.charAt(i);
+
     if (start) {
-      if (/[aeiou]/.test(word.charAt(i))) {
-        restOfWord += word.charAt(i);
+      if (/[aeiou]/i.test(char) || (/[y]/i.test(char) && i>0)) {
+        if (/[u]/i.test(char) && /[q]/i.test(startOfWord.charAt(i - 1))) {
+          startOfWord += char;
+        } else {
+          restOfWord += char;
+        }
         start = false;
+
       } else {
-        startOfWord += word.charAt(i);
+        startOfWord += char;
       };
     } else {
-      restOfWord += word.charAt(i);
+      restOfWord += char;
     };
   };
 
@@ -41,15 +38,13 @@ function processSentence(sentence) {
   var word = "";
 
   for (var i = 0; i < sentence.length; i++) {
-    if (/[a-zA-Z]/.test(sentence.charAt(i))) {
-      console.log("alphanum " + sentence.charAt(i));
-      word += sentence.charAt(i);
+    var char = sentence.charAt(i);
+    if (/[a-z]/i.test(char)) {
+      word += char;
     } else {
-      console.log(processedSentence + " " + word);
       processedSentence += translateWord(word);
       word = "";
-      processedSentence += sentence.charAt(i);
-      console.log(processedSentence);
+      processedSentence += char;
     };
   };
   processedSentence += translateWord(word);
